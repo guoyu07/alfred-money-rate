@@ -46,7 +46,6 @@ func main() {
 			continue
 		}
 
-
 		data := strings.Fields(line)
 		if len(data) < 11 {
 			continue
@@ -77,26 +76,26 @@ func addItem(data []string, alfredResponse *utils.AlfredResponse, money float64)
 	ban.ZeroOneYear = stringMoneyRateToFloat(data[8])
 	ban.ZeroThreeYear = stringMoneyRateToFloat(data[9])
 	ban.ZeroFiveYear = stringMoneyRateToFloat(data[10])
-	alfredResponse.AddDefaultItem(ban.Name + " 活期三个月 " + toString(money, ban.Huoqi/4, ban.Huoqi))
-	alfredResponse.AddDefaultItem(ban.Name + " 活期六个月 " + toString(money, ban.Huoqi/2, ban.Huoqi))
-	alfredResponse.AddDefaultItem(ban.Name + " 活期一年 " + toString(money, ban.Huoqi, ban.Huoqi))
-	alfredResponse.AddDefaultItem(ban.Name + " 定存三个月 " + toString(money, ban.ThreeMon/4, ban.ThreeMon))
-	alfredResponse.AddDefaultItem(ban.Name + " 定存六个月 " + toString(money, ban.SixMon/2, ban.SixMon))
-	alfredResponse.AddDefaultItem(ban.Name + " 定存一年 " + toString(money, ban.OneYear, ban.OneYear))
-	alfredResponse.AddDefaultItem(ban.Name + " 定存二年 " + toString(money, ban.TwoYear*2, ban.TwoYear))
-	alfredResponse.AddDefaultItem(ban.Name + " 定存三年 " + toString(money, ban.ThreeYear*3, ban.ThreeYear))
-	alfredResponse.AddDefaultItem(ban.Name + " 定存五年 " + toString(money, ban.FiveYear*5, ban.FiveYear))
-	alfredResponse.AddDefaultItem(ban.Name + " 0定存一年 " + toString(money, ban.ZeroOneYear, ban.ZeroOneYear))
-	alfredResponse.AddDefaultItem(ban.Name + " 0定存三年 " + toString(money, ban.ZeroThreeYear*3, ban.ZeroThreeYear))
-	alfredResponse.AddDefaultItem(ban.Name + " 0定存五年 " + toString(money, ban.ZeroFiveYear*5, ban.ZeroFiveYear))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 活期三个月 (年利率 %.3f%%)", ban.Huoqi*100), toString(money, ban.Huoqi/4))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 活期六个月 (年利率 %.3f%%)", ban.Huoqi*100), toString(money, ban.Huoqi/2))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 活期一年 (年利率 %.3f%%)", ban.Huoqi*100), toString(money, ban.Huoqi))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 定存三个月 (年利率 %.3f%%)", ban.ThreeMon*100), toString(money, ban.ThreeMon/4))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 定存六个月 (年利率 %.3f%%)", ban.SixMon), toString(money, ban.SixMon/2))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 定存一年 (年利率 %.3f%%)", ban.OneYear), toString(money, ban.OneYear))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 定存二年 (年利率 %.3f%%)", ban.TwoYear), toString(money, ban.TwoYear*2))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 定存三年 (年利率 %.3f%%)", ban.ThreeYear), toString(money, ban.ThreeYear*3))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 定存五年 (年利率 %.3f%%)", ban.FiveYear), toString(money, ban.FiveYear*5))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 0定存一年 (年利率 %.3f%%)", ban.ZeroOneYear), toString(money, ban.ZeroOneYear))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 0定存三年 (年利率 %.3f%%)", ban.ZeroThreeYear), toString(money, ban.ZeroThreeYear*3))
+	alfredResponse.AddItemWithSubTitle(ban.Name+fmt.Sprintf(" 0定存五年 (年利率 %.3f%%)", ban.ZeroFiveYear), toString(money, ban.ZeroFiveYear*5))
 }
 
-func toString(money float64, percent float64, yearRate float64) string {
+func toString(money float64, percent float64) string {
 	result := money * percent
-	return fmt.Sprintf("可得 : %.3f 元(年利率 %.3f%%)", result, yearRate*100)
+	return fmt.Sprintf("%.3f 元", result)
 }
 
-func stringMoneyRateToFloat(data string) float64  {
+func stringMoneyRateToFloat(data string) float64 {
 	return stringToFloat(data) / 100
 }
 
